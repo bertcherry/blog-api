@@ -1,3 +1,4 @@
 const public = require('./public');
+const admin = require('./admin');
 
-module.exports = public;
+module.exports = {public, admin};

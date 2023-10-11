@@ -8,7 +8,7 @@ exports.public_index = asyncHandler(async (req, res, next) => {
     return res.send(recentPosts);
 });
 
-exports.public_all_posts = asyncHandler(async (req, res, next) => {
+exports.all_posts = asyncHandler(async (req, res, next) => {
     const allPosts = await Post.find().sort({ pub_date: -1 }).exec();
     return res.send(allPosts);
 });
@@ -19,4 +19,9 @@ exports.public_post_detail = asyncHandler(async (req, res, next) => {
         Comment.find({ post: req.params.id }).populate('author').exec(),
     ]);
     return res.send({post, comments});
+});
+
+exports.admin_post_detail = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.id).exec();
+    return res.send(post);
 });
