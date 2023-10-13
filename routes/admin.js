@@ -4,6 +4,8 @@ const router = express.Router();
 const post_controller = require('../controllers/postController');
 const user_controller = require('../controllers/userController');
 
+router.use(user_controller.verify_token, user_controller.verify_admin);
+
 router.get('/', user_controller.admin_index);
 
 router.get('/posts', post_controller.all_posts);

@@ -13,8 +13,10 @@ async function main() {
 const app = express();
 
 app.use(cors());
+app.use(express.json());
 
 app.use('/', routes.public);
+app.use('/admin', routes.admin);
 
 app.listen(process.env.PORT, () => 
     console.log(`Listening on port ${process.env.PORT}`),
