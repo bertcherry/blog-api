@@ -5,12 +5,12 @@ const asyncHandler = require('express-async-handler');
 
 exports.public_index = asyncHandler(async (req, res, next) => {
     const recentPosts = await Post.find().sort({ pub_date: -1 }).limit(6).exec();
-    return res.send(recentPosts);
+    return res.json(recentPosts);
 });
 
 exports.all_posts = asyncHandler(async (req, res, next) => {
     const allPosts = await Post.find().sort({ pub_date: -1 }).exec();
-    return res.send(allPosts);
+    return res.json(allPosts);
 });
 
 exports.public_post_detail = asyncHandler(async (req, res, next) => {
@@ -18,10 +18,10 @@ exports.public_post_detail = asyncHandler(async (req, res, next) => {
         Post.findById(req.params.id).exec(),
         Comment.find({ post: req.params.id }).populate('author').exec(),
     ]);
-    return res.send({post, comments});
+    return res.json({post, comments});
 });
 
 exports.admin_post_detail = asyncHandler(async (req, res, next) => {
     const post = await Post.findById(req.params.id).exec();
-    return res.send(post);
+    return res.json(post);
 });
