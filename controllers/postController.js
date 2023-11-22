@@ -4,12 +4,12 @@ const Comment = require('../models/comment');
 const asyncHandler = require('express-async-handler');
 
 exports.public_index = asyncHandler(async (req, res, next) => {
-    const recentPosts = await Post.find().sort({ pub_date: -1 }).limit(6).exec();
+    const recentPosts = await Post.find({ status: 'Published' }).sort({ pub_date: -1 }).limit(6).exec();
     return res.json(recentPosts);
 });
 
-exports.all_posts = asyncHandler(async (req, res, next) => {
-    const allPosts = await Post.find().sort({ pub_date: -1 }).exec();
+exports.public_all_posts = asyncHandler(async (req, res, next) => {
+    const allPosts = await Post.find({ status: 'Published' }).sort({ pub_date: -1 }).exec();
     return res.json(allPosts);
 });
 
@@ -19,6 +19,11 @@ exports.public_post_detail = asyncHandler(async (req, res, next) => {
         Comment.find({ post: req.params.id }).populate('author').exec(),
     ]);
     return res.json({post, comments});
+});
+
+exports.admin_all_posts = asyncHandler(async (req, res, next) => {
+    const allPosts = await Post.find().sort({ pub_date: -1 }).exec();
+    return res.json(allPosts);
 });
 
 exports.admin_post_detail = asyncHandler(async (req, res, next) => {

@@ -9,7 +9,7 @@ router.get('/', post_controller.public_index);
 //create get route
 router.post('/login', user_controller.login_authenticate);
 
-router.get('/posts', post_controller.all_posts);
+router.get('/posts', post_controller.public_all_posts);
 
 router.get('/posts/:postId', post_controller.public_post_detail);
 
