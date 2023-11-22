@@ -20,7 +20,7 @@ exports.verify_token = function (req, res, next) {
 }
 
 exports.verify_admin = function (req, res, next) {
-    if (!req.user.admin) return res.sendStatus(403);
+    if (!req.user.user.admin) return res.sendStatus(403);
     next();
 }
 
