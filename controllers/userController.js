@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const bcrypt = require('bcryptjs');
 
 const asyncHandler = require('express-async-handler');
 
@@ -24,10 +25,10 @@ exports.verify_admin = function (req, res, next) {
 }
 
 exports.login_authenticate = asyncHandler(async (req, res, next) => {
-    const user = await User.find({ email: req.params.email }).exec();
-    //rework to return more useful error information
+    const user = await User.findOne({ email: req.body.email });
     if (!user) return res.sendStatus(403);
-    if (user.comparePassword(req.params.password) === isMatch) {
+    const isMatch = await user.comparePassword(req.body.password);
+    if (isMatch === true) {
         jwt.sign({user}, process.env.TOKEN_KEY, { expiresIn: '20m' }, (err, token) => {
             if (err) return res.sendStatus(401);
             if (user.admin) res.json({token}).redirect('/admin');
